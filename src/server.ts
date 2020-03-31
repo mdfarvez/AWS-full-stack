@@ -23,12 +23,16 @@ import { filterImageFromURL, deleteLocalFiles } from './util/util';
 
     const imagePath = await filterImageFromURL(imageURL);
 
+    if (!imagePath) {
+      return res.status(422).send("Image isn't found!");
+    }
+
     res.status(200).sendFile(imagePath, () => {
       deleteLocalFiles([imagePath]);
     });
 
   });
-  
+
   // Root Endpoint
   // Displays a simple message to the user
   app.get("/", async (req, res) => {
